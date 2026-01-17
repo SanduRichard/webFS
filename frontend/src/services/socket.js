@@ -33,15 +33,15 @@ class SocketService {
     });
 
     this.socket.on('connect', () => {
-      console.log('🔌 Conectat la server WebSocket');
+      // Connected to WebSocket server
     });
 
     this.socket.on('disconnect', (reason) => {
-      console.log('🔌 Deconectat de la server:', reason);
+      // Disconnected from server
     });
 
     this.socket.on('connect_error', (error) => {
-      console.error('❌ Eroare de conexiune:', error);
+      // Connection error
     });
 
     return this.socket;

@@ -48,12 +48,10 @@ Feedback.belongsTo(Activity, {
 const initializeDatabase = async (force = false) => {
   try {
     await sequelize.authenticate();
-    console.log('✅ Conexiune la baza de date stabilită cu succes.');
     
     // Sync modele cu baza de date
     // alter: true actualizează schema fără a șterge datele
     await sequelize.sync({ alter: true });
-    console.log('✅ Modele sincronizate cu baza de date.');
     
     return true;
   } catch (error) {

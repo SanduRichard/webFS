@@ -69,7 +69,7 @@ const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="input pl-10"
+                className="input-with-icon"
                 placeholder="exemplu@email.com"
                 required
               />
@@ -91,7 +91,7 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="input pl-10"
+                className="input-with-icon"
                 placeholder="••••••••"
                 required
               />

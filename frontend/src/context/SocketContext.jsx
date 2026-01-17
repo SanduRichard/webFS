@@ -17,12 +17,10 @@ export const SocketProvider = ({ children }) => {
 
     const handleConnect = () => {
       setIsConnected(true);
-      console.log('🔌 Socket conectat');
     };
 
     const handleDisconnect = () => {
       setIsConnected(false);
-      console.log('🔌 Socket deconectat');
     };
 
     socket.on('connect', handleConnect);

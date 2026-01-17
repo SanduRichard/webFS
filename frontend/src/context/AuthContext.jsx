@@ -15,32 +15,17 @@ export const AuthProvider = ({ children }) => {
       const savedToken = localStorage.getItem('token');
       const savedUser = localStorage.getItem('user');
 
-      console.log('🔐 Verificare token la încărcare:', { 
-        hasToken: !!savedToken, 
-        hasUser: !!savedUser 
-      });
-
       if (savedToken && savedUser) {
         try {
           const response = await authAPI.getMe();
-          console.log('✅ Token valid, utilizator autentificat:', response.data.user);
           setUser(response.data.user);
           setToken(savedToken);
         } catch (err) {
-          // Token invalid sau expirat
-          console.error('❌ Token invalid sau expirat:', err);
-          console.error('❌ Detalii eroare:', {
-            message: err.message,
-            response: err.response?.data,
-            status: err.response?.status
-          });
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           setUser(null);
           setToken(null);
         }
-      } else {
-        console.log('ℹ️ Nu există token salvat');
       }
       setLoading(false);
     };

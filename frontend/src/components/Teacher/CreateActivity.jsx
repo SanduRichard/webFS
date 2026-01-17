@@ -101,7 +101,7 @@ const CreateActivity = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="input pl-10"
+                className="input-with-icon"
                 placeholder="Ex: Curs Programare Web - Săptămâna 5"
                 required
                 minLength={3}
@@ -140,7 +140,7 @@ const CreateActivity = () => {
                 name="duration"
                 value={formData.duration}
                 onChange={handleChange}
-                className="input pl-10 appearance-none cursor-pointer"
+                className="input-with-icon appearance-none cursor-pointer"
                 required
               >
                 {durationOptions.map(option => (

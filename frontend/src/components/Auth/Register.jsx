@@ -95,7 +95,7 @@ const Register = () => {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="input pl-10"
+                className="input-with-icon"
                 placeholder="Ion Popescu"
                 required
               />
@@ -117,7 +117,7 @@ const Register = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="input pl-10"
+                className="input-with-icon"
                 placeholder="exemplu@email.com"
                 required
               />
@@ -139,7 +139,7 @@ const Register = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="input pl-10"
+                className="input-with-icon"
                 placeholder="••••••••"
                 required
                 minLength={6}
@@ -162,7 +162,7 @@ const Register = () => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="input pl-10"
+                className="input-with-icon"
                 placeholder="••••••••"
                 required
               />

@@ -15,8 +15,6 @@ class SocketService {
    */
   setupEventHandlers() {
     this.io.on('connection', (socket) => {
-      console.log(`🔌 Client conectat: ${socket.id}`);
-
       // Join activity room
       socket.on('join-activity', async (data) => {
         await this.handleJoinActivity(socket, data);
@@ -70,8 +68,6 @@ class SocketService {
       socket.activityId = activityId;
       socket.userRole = userRole;
 
-      console.log(`👤 ${userRole} s-a alăturat activității ${activityId}`);
-
       // Trimite statisticile curente
       const stats = await this.getActivityStats(activityId);
       socket.emit('stats-update', { stats });
@@ -81,7 +77,6 @@ class SocketService {
       this.io.to(roomName).emit('participants-update', { count: participantCount });
 
     } catch (error) {
-      console.error('Eroare la join-activity:', error);
       socket.emit('error', { message: 'Eroare la alăturarea la activitate' });
     }
   }
@@ -101,8 +96,6 @@ class SocketService {
       const participantCount = this.activityRooms.get(activityId).size;
       this.io.to(roomName).emit('participants-update', { count: participantCount });
     }
-
-    console.log(`👤 Client ${socket.id} a părăsit activitatea ${activityId}`);
   }
 
   /**
@@ -145,10 +138,7 @@ class SocketService {
       // Trimite și un update separat pentru statistici
       this.io.to(roomName).emit('stats-update', { stats });
 
-      console.log(`📝 Feedback ${feedbackType} pentru activitatea ${activityId}`);
-
     } catch (error) {
-      console.error('Eroare la send-feedback:', error);
       socket.emit('error', { message: 'Eroare la trimiterea feedback-ului' });
     }
   }
@@ -170,8 +160,6 @@ class SocketService {
         this.io.to(roomName).emit('participants-update', { count: participantCount });
       }
     }
-
-    console.log(`🔌 Client deconectat: ${socket.id}`);
   }
 
   /**
@@ -217,7 +205,6 @@ class SocketService {
   broadcastActivityEnded(activityId) {
     const roomName = `activity-${activityId}`;
     this.io.to(roomName).emit('activity-ended', { activityId });
-    console.log(`⏰ Activitatea ${activityId} a expirat`);
   }
 
   /**

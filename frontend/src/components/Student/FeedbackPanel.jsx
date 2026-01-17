@@ -97,7 +97,7 @@ const FeedbackPanel = () => {
       setFeedbackSent(true);
       setTimeout(() => setFeedbackSent(false), 1500);
     } catch (err) {
-      console.error('Eroare la trimiterea feedback-ului:', err);
+      // Error sending feedback
     } finally {
       setSendingFeedback(false);
     }
@@ -243,15 +243,15 @@ const FeedbackPanel = () => {
                 ))}
               </div>
 
-              {/* Feedback Sent Message */}
-              {feedbackSent && (
-                <div className="mt-6 text-center">
-                  <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-100 px-4 py-2 rounded-full">
+              {/* Feedback Sent Message - Fixed position to avoid scroll jump */}
+              <div className="mt-6 h-10 flex items-center justify-center">
+                {feedbackSent && (
+                  <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-100 px-4 py-2 rounded-full animate-pulse">
                     <CheckCircle size={18} />
                     <span>Feedback trimis!</span>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </>
           )}
 

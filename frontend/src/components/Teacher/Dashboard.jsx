@@ -34,7 +34,6 @@ const Dashboard = () => {
       setError(null);
     } catch (err) {
       setError('Eroare la încărcarea activităților');
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -47,7 +46,6 @@ const Dashboard = () => {
       setDeleteConfirm(null);
     } catch (err) {
       setError('Eroare la ștergerea activității');
-      console.error(err);
     }
   };
 

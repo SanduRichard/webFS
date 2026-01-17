@@ -32,6 +32,30 @@ const ActivityView = () => {
   const [stopping, setStopping] = useState(false);
 
   // Încarcă datele activității
+  const loadActivity = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await activitiesAPI.getById(id);
+      setActivity(response.data.activity);
+      setStats(response.data.feedbackStats);
+      setError(null);
+    } catch (err) {
+      setError('Eroare la încărcarea activității');
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  const loadTimeline = useCallback(async () => {
+    try {
+      const response = await feedbackAPI.getTimeline(id);
+      setTimeline(response.data.timeline);
+    } catch (err) {
+      // Error loading timeline
+    }
+  }, [id]);
+
+  // Încarcă datele activității la mount și când se schimbă ID-ul
   useEffect(() => {
     loadActivity();
     loadTimeline();
@@ -57,7 +81,7 @@ const ActivityView = () => {
   // Timer pentru timpul rămas
   useEffect(() => {
     if (activity?.expiresAt) {
-      const updateTime = () => {
+      const updateTime = async () => {
         const expires = new Date(activity.expiresAt);
         const now = new Date();
         const diff = Math.max(0, Math.floor((expires - now) / 1000));
@@ -65,7 +89,13 @@ const ActivityView = () => {
 
         if (diff === 0 && activity.isActive) {
           // Reîncarcă activitatea când expiră
-          loadActivity();
+          try {
+            const response = await activitiesAPI.getById(id);
+            setActivity(response.data.activity);
+            setStats(response.data.feedbackStats);
+          } catch (err) {
+            // Error reloading activity
+          }
         }
       };
 
@@ -73,39 +103,17 @@ const ActivityView = () => {
       const interval = setInterval(updateTime, 1000);
       return () => clearInterval(interval);
     }
-  }, [activity?.expiresAt, activity?.isActive]);
-
-  const loadActivity = async () => {
-    try {
-      setLoading(true);
-      const response = await activitiesAPI.getById(id);
-      setActivity(response.data.activity);
-      setStats(response.data.feedbackStats);
-      setError(null);
-    } catch (err) {
-      setError('Eroare la încărcarea activității');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadTimeline = async () => {
-    try {
-      const response = await feedbackAPI.getTimeline(id);
-      setTimeline(response.data.timeline);
-    } catch (err) {
-      console.error('Eroare la încărcarea timeline-ului:', err);
-    }
-  };
+  }, [activity?.expiresAt, activity?.isActive, id]);
 
   // Refresh timeline periodic
   useEffect(() => {
     if (!activity?.isExpired) {
-      const interval = setInterval(loadTimeline, 10000);
+      const interval = setInterval(() => {
+        loadTimeline();
+      }, 10000);
       return () => clearInterval(interval);
     }
-  }, [activity?.isExpired, id]);
+  }, [activity?.isExpired, loadTimeline]);
 
   const handleCopyCode = async () => {
     try {
@@ -113,7 +121,7 @@ const ActivityView = () => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Eroare la copiere:', err);
+      // Error copying to clipboard
     }
   };
 

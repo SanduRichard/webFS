@@ -59,17 +59,13 @@ const startServer = async () => {
 
 // Gestionare închidere grațioasă
 process.on('SIGTERM', () => {
-  console.log('SIGTERM primit. Închidere server...');
   server.close(() => {
-    console.log('Server închis.');
     process.exit(0);
   });
 });
 
 process.on('SIGINT', () => {
-  console.log('SIGINT primit. Închidere server...');
   server.close(() => {
-    console.log('Server închis.');
     process.exit(0);
   });
 });
