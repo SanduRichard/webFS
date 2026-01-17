@@ -85,10 +85,7 @@ const FeedbackPanel = () => {
       setSendingFeedback(true);
       setLastFeedback(feedbackType);
 
-      // Trimite prin WebSocket pentru real-time
-      sendFeedback(feedbackType);
-
-      // Și prin API pentru persistență
+      // Trimite prin API - acesta salvează în DB și broadcast-uie prin WebSocket
       await feedbackAPI.send({
         activityId: parseInt(activityId),
         feedbackType

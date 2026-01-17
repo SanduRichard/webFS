@@ -100,6 +100,8 @@ class SocketService {
 
   /**
    * Handler pentru trimiterea feedback-ului
+   * NOTĂ: Feedback-ul este salvat în DB prin API endpoint, nu aici
+   * WebSocket este folosit doar pentru notificări real-time
    */
   async handleSendFeedback(socket, { activityId, feedbackType }) {
     try {
@@ -118,25 +120,9 @@ class SocketService {
         return;
       }
 
-      // Salvează feedback-ul în baza de date
-      const feedback = await Feedback.create({
-        activityId,
-        feedbackType,
-        timestamp: new Date()
-      });
-
-      // Obține statisticile actualizate
-      const stats = await this.getActivityStats(activityId);
-
-      // Broadcast către toți din room (inclusiv profesorul)
-      const roomName = `activity-${activityId}`;
-      this.io.to(roomName).emit('feedback-update', {
-        feedback: feedback.toJSON(),
-        stats
-      });
-
-      // Trimite și un update separat pentru statistici
-      this.io.to(roomName).emit('stats-update', { stats });
+      // NU salvăm aici - feedback-ul este salvat prin API endpoint
+      // Doar broadcast-uim notificarea că un feedback nou va fi trimis
+      // Statisticile vor fi actualizate de API endpoint după salvare
 
     } catch (error) {
       socket.emit('error', { message: 'Eroare la trimiterea feedback-ului' });

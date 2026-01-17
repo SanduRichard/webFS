@@ -40,6 +40,17 @@ const feedbackController = {
       // Calculează statisticile actualizate
       const stats = await feedbackController.calculateStats(activityId);
 
+      // Broadcast update către toți participanții prin WebSocket
+      const io = req.app.get('io');
+      if (io) {
+        const roomName = `activity-${activityId}`;
+        io.to(roomName).emit('feedback-update', {
+          feedback: feedback.toJSON(),
+          stats
+        });
+        io.to(roomName).emit('stats-update', { stats });
+      }
+
       res.status(201).json({
         success: true,
         message: 'Feedback trimis cu succes',
