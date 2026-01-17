@@ -147,6 +147,23 @@ const authController = {
     } catch (error) {
       next(error);
     }
+  },
+
+  /**
+   * Deconectare utilizator
+   * POST /api/auth/logout
+   */
+  logout: async (req, res, next) => {
+    try {
+      // În cazul JWT, logout-ul se face pe client prin ștergerea token-ului
+      // Aici putem loga evenimentul sau invalida token-ul dacă folosim o listă neagră
+      res.json({
+        success: true,
+        message: 'Deconectare reușită'
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 };
 

@@ -36,4 +36,11 @@ router.get('/me', authMiddleware, authController.getMe);
  */
 router.put('/me', authMiddleware, authController.updateMe);
 
+/**
+ * @route   POST /api/auth/logout
+ * @desc    Deconectare utilizator
+ * @access  Private
+ */
+router.post('/logout', authMiddleware, authController.logout);
+
 module.exports = router;

@@ -82,11 +82,20 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Deconectare
-  const logout = useCallback(() => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setToken(null);
-    setUser(null);
+  const logout = useCallback(async () => {
+    try {
+      // Încearcă să anunțe backend-ul despre logout
+      await authAPI.logout();
+    } catch (err) {
+      // Dacă API-ul eșuează, continuă cu logout local
+      console.error('Eroare la logout pe server:', err);
+    } finally {
+      // Curăță datele locale indiferent de rezultatul API-ului
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setToken(null);
+      setUser(null);
+    }
   }, []);
 
   // Actualizare profil

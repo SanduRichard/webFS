@@ -151,6 +151,43 @@
             "description": "Actualizează profilul utilizatorului"
           },
           "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    pm.collectionVariables.set(\"token\", \"\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_api_url}}/auth/logout",
+              "host": ["{{base_api_url}}"],
+              "path": ["auth", "logout"]
+            },
+            "description": "Deconectare utilizator (șterge automat token-ul din variabilele Postman)"
+          },
+          "response": []
         }
       ]
     },

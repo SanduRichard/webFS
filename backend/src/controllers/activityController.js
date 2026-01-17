@@ -252,6 +252,25 @@ const activityController = {
     try {
       const { accessCode } = req.body;
 
+      // Verifică dacă există un token în header (utilizator autentificat)
+      const authHeader = req.headers.authorization;
+      if (authHeader) {
+        // Dacă e autentificat, verifică dacă este profesor
+        try {
+          const token = authHeader.split(' ')[1];
+          const decoded = require('jsonwebtoken').verify(token, require('../config/jwt').secret);
+          
+          if (decoded.role === 'teacher') {
+            return res.status(403).json({
+              success: false,
+              message: 'Profesorii nu pot da join la activități. Această funcționalitate este doar pentru studenți.'
+            });
+          }
+        } catch (err) {
+          // Token invalid, continuăm ca utilizator neautentificat
+        }
+      }
+
       const activity = await Activity.findOne({
         where: { 
           accessCode: accessCode.toUpperCase(),
@@ -269,7 +288,7 @@ const activityController = {
       if (!activity) {
         return res.status(404).json({
           success: false,
-          message: 'Activitate negăsită sau inactivă'
+          message: 'Cod de acces incorect sau activitatea nu este activă'
         });
       }
 
