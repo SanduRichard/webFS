@@ -14,7 +14,7 @@ const server = http.createServer(app);
 // Configurare Socket.io
 const io = new Server(server, {
   cors: {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173'],
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -34,7 +34,7 @@ const startServer = async () => {
     await initializeDatabase();
     
     // Pornire server HTTP
-    server.listen(PORT, () => {
+    server.listen(PORT, '0.0.0.0', () => {
       console.log(`
 ╔════════════════════════════════════════════════════════════╗
 ║                                                            ║

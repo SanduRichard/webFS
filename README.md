@@ -18,8 +18,12 @@ Platformă web pentru acordarea de feedback continuu în timpul activităților 
 - Feedback nelimitat pe durata activității
 - Feedback anonim
 
-## Tehnologii
 
 - **Backend:** Node.js, Express.js, Socket.io, PostgreSQL, Sequelize
 - **Frontend:** React 18, Vite, TailwindCSS, Recharts
 
+
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL 14+

@@ -1,16 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, loading, error, clearError } = useAuth();
+  const { login, loading, error, clearError, isAuthenticated, isTeacher } = useAuth();
   
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  // Redirectează utilizatorii deja autentificați
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(isTeacher ? '/dashboard' : '/join', { replace: true });
+    }
+  }, [isAuthenticated, isTeacher, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +31,7 @@ const Login = () => {
     const result = await login(formData);
     
     if (result.success) {
-      navigate('/dashboard');
+      // Nu mai e nevoie de navigate aici, useEffect se ocupă de redirectare
     }
   };
 

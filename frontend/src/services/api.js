@@ -1,8 +1,18 @@
 import axios from 'axios';
 
+// Detectăm automat URL-ul API-ului bazat pe cum e accesat site-ul
+const getApiUrl = () => {
+  // Dacă e accesat prin localhost, folosim proxy-ul Vite (/api)
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return '/api';
+  }
+  // Altfel, folosim IP-ul din env sau construim din hostname-ul curent
+  return import.meta.env.VITE_API_URL || `http://${window.location.hostname}:3000/api`;
+};
+
 // Creare instanță Axios
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
+  baseURL: getApiUrl(),
   headers: {
     'Content-Type': 'application/json'
   }

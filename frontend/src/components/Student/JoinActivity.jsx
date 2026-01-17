@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { activitiesAPI } from '../../services/api';
 import { isValidAccessCode } from '../../utils/helpers';
+import { useAuth } from '../../hooks/useAuth';
 import { 
   KeyRound, 
   ArrowRight, 
@@ -12,10 +13,18 @@ import {
 
 const JoinActivity = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, isTeacher, logout } = useAuth();
   
   const [accessCode, setAccessCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Redirectează teacherii la dashboard
+  useEffect(() => {
+    if (isAuthenticated && isTeacher) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, isTeacher, navigate]);
 
   const handleChange = (e) => {
     const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
@@ -142,8 +151,12 @@ const JoinActivity = () => {
         <div className="mt-6 text-center">
           <p className="text-primary-100 text-sm">
             Ești profesor?{' '}
+            <Link to="/register" className="text-white font-medium hover:underline">
+              Creează un cont
+            </Link>
+            {' sau '}
             <Link to="/login" className="text-white font-medium hover:underline">
-              Autentifică-te aici
+              autentifică-te
             </Link>
           </p>
         </div>

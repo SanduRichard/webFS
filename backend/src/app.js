@@ -11,8 +11,9 @@ const feedbackRoutes = require('./routes/feedback');
 const app = express();
 
 // Middleware-uri globale
+const corsOrigins = process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173'];
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: corsOrigins,
   credentials: true
 }));
 app.use(express.json());

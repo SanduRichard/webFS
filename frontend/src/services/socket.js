@@ -1,6 +1,14 @@
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000';
+// Detectăm automat URL-ul socket-ului bazat pe cum e accesat site-ul
+const getSocketUrl = () => {
+  // Dacă e accesat prin localhost, folosim localhost
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:3000';
+  }
+  // Altfel, folosim IP-ul din env sau construim din hostname-ul curent
+  return import.meta.env.VITE_SOCKET_URL || `http://${window.location.hostname}:3000`;
+};
 
 class SocketService {
   constructor() {
@@ -16,7 +24,8 @@ class SocketService {
       return this.socket;
     }
 
-    this.socket = io(SOCKET_URL, {
+    const socketUrl = getSocketUrl();
+    this.socket = io(socketUrl, {
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionAttempts: 5,

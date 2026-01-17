@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { Mail, Lock, User, UserPlus, AlertCircle, GraduationCap } from 'lucide-react';
+import { Mail, Lock, User, UserCircle, AlertCircle, UserCog, GraduationCap, UserPlus } from 'lucide-react';
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register, loading, error, clearError } = useAuth();
+  const { register, loading, error, clearError, isAuthenticated, isTeacher } = useAuth();
   
   const [formData, setFormData] = useState({
     email: '',
@@ -16,6 +16,13 @@ const Register = () => {
   });
   
   const [validationError, setValidationError] = useState('');
+
+  // Redirectează utilizatorii deja autentificați
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(isTeacher ? '/dashboard' : '/join', { replace: true });
+    }
+  }, [isAuthenticated, isTeacher, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +53,8 @@ const Register = () => {
     });
     
     if (result.success) {
-      navigate('/dashboard');
+      // Nu mai e nevoie de navigate aici, useEffect se ocupă de redirectare
+      // navigate(formData.role === 'teacher' ? '/dashboard' : '/join');
     }
   };
 
@@ -55,8 +63,11 @@ const Register = () => {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Creează un cont</h1>
-          <p className="text-gray-600">Înregistrează-te ca profesor</p>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mb-4">
+            <GraduationCap size={32} className="text-primary-600" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Creează un cont de profesor</h1>
+          <p className="text-gray-600">Gestionează activități și primește feedback în timp real</p>
         </div>
 
         {/* Error Alert */}
@@ -110,39 +121,6 @@ const Register = () => {
                 placeholder="exemplu@email.com"
                 required
               />
-            </div>
-          </div>
-
-          {/* Role Selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Rol
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => handleChange({ target: { name: 'role', value: 'teacher' } })}
-                className={`p-3 rounded-lg border-2 transition-all flex flex-col items-center gap-2 ${
-                  formData.role === 'teacher'
-                    ? 'border-primary-500 bg-primary-50 text-primary-700'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <GraduationCap size={24} />
-                <span className="font-medium">Profesor</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleChange({ target: { name: 'role', value: 'student' } })}
-                className={`p-3 rounded-lg border-2 transition-all flex flex-col items-center gap-2 ${
-                  formData.role === 'student'
-                    ? 'border-primary-500 bg-primary-50 text-primary-700'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <User size={24} />
-                <span className="font-medium">Student</span>
-              </button>
             </div>
           </div>
 
