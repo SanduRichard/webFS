@@ -84,7 +84,17 @@ input:focus, select:focus, textarea:focus {
 
 /* Form input styles */
 .input {
-  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+}
+
+/* Input with icon padding */
+.input.pl-10 {
+  @apply pl-10;
+}
+
+/* Icon container in inputs */
+.input-icon {
+  @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
 }
 
 /* Alert styles */
