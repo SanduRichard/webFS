@@ -7,7 +7,12 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:3000/api",
+      "value": "192.168.1.132:3000",
+      "type": "string"
+    },
+    {
+      "key": "base_api_url",
+      "value": "192.168.1.132:3000/api",
       "type": "string"
     },
     {
@@ -42,11 +47,11 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"teacher\"\n}"
+              "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"teacher\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/auth/register",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/auth/register",
+              "host": ["{{base_api_url}}"],
               "path": ["auth", "register"]
             },
             "description": "Înregistrare utilizator nou (teacher sau student)"
@@ -82,8 +87,8 @@
               "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/auth/login",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/auth/login",
+              "host": ["{{base_api_url}}"],
               "path": ["auth", "login"]
             },
             "description": "Autentificare utilizator (salvează automat token-ul)"
@@ -106,8 +111,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/auth/me",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/auth/me",
+              "host": ["{{base_api_url}}"],
               "path": ["auth", "me"]
             },
             "description": "Obține datele utilizatorului curent (necesită token)"
@@ -136,11 +141,11 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"John Updated\"\n}"
+              "raw": "{\n  \"fullName\": \"John Updated\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/auth/me",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/auth/me",
+              "host": ["{{base_api_url}}"],
               "path": ["auth", "me"]
             },
             "description": "Actualizează profilul utilizatorului"
@@ -168,8 +173,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/activities?status=active",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities?status=active",
+              "host": ["{{base_api_url}}"],
               "path": ["activities"],
               "query": [
                 {
@@ -205,11 +210,11 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Curs Web Development\",\n  \"description\": \"Introducere în React și Node.js\"\n}"
+              "raw": "{\n  \"title\": \"Curs Web Development\",\n  \"description\": \"Introducere în React și Node.js\",\n  \"duration\": 60,\n}"
             },
             "url": {
-              "raw": "{{base_url}}/activities",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities",
+              "host": ["{{base_api_url}}"],
               "path": ["activities"]
             },
             "description": "Creează o activitate nouă (Teacher only)"
@@ -232,8 +237,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/activities/1",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities/1",
+              "host": ["{{base_api_url}}"],
               "path": ["activities", "1"]
             },
             "description": "Obține detaliile unei activități (Teacher only)"
@@ -265,8 +270,8 @@
               "raw": "{\n  \"title\": \"Curs Web Development - Updated\",\n  \"description\": \"Curs avansat React\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/activities/1",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities/1",
+              "host": ["{{base_api_url}}"],
               "path": ["activities", "1"]
             },
             "description": "Actualizează o activitate (Teacher only)"
@@ -289,8 +294,8 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/activities/1",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities/1",
+              "host": ["{{base_api_url}}"],
               "path": ["activities", "1"]
             },
             "description": "Șterge o activitate (Teacher only)"
@@ -312,8 +317,8 @@
               "raw": "{\n  \"code\": \"ABC123\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/activities/join",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities/join",
+              "host": ["{{base_api_url}}"],
               "path": ["activities", "join"]
             },
             "description": "Alătură-te unei activități folosind codul (Public - pentru studenți)"
@@ -336,8 +341,8 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/activities/1/stop",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities/1/stop",
+              "host": ["{{base_api_url}}"],
               "path": ["activities", "1", "stop"]
             },
             "description": "Oprește o activitate (Teacher only)"
@@ -360,8 +365,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/activities/1/stats",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/activities/1/stats",
+              "host": ["{{base_api_url}}"],
               "path": ["activities", "1", "stats"]
             },
             "description": "Obține statisticile unei activități (Teacher only)"
@@ -388,8 +393,8 @@
               "raw": "{\n  \"activityId\": 1,\n  \"rating\": 4,\n  \"comment\": \"Foarte interesant cursul!\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/feedback",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/feedback",
+              "host": ["{{base_api_url}}"],
               "path": ["feedback"]
             },
             "description": "Trimite feedback pentru o activitate (Public - studenții nu au nevoie de autentificare)"
@@ -412,8 +417,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/feedback/1",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/feedback/1",
+              "host": ["{{base_api_url}}"],
               "path": ["feedback", "1"]
             },
             "description": "Obține tot feedback-ul pentru o activitate (Teacher only)"
@@ -436,8 +441,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/feedback/1/timeline",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/feedback/1/timeline",
+              "host": ["{{base_api_url}}"],
               "path": ["feedback", "1", "timeline"]
             },
             "description": "Obține timeline-ul de feedback pentru o activitate (Teacher only)"
@@ -450,8 +455,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/feedback/1/stats",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_api_url}}/feedback/1/stats",
+              "host": ["{{base_api_url}}"],
               "path": ["feedback", "1", "stats"]
             },
             "description": "Obține statisticile pentru o activitate (Public)"
@@ -466,10 +471,8 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:3000/health",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "3000",
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
           "path": ["health"]
         },
         "description": "Verifică starea serverului"
