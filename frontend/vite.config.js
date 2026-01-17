@@ -7,6 +7,7 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true, // Permite accesul din rețeaua locală
+    allowedHosts: ['dumiflex.go.ro'],
     proxy: {
       '/api': {
         target: 'http://localhost:3000',

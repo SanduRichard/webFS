@@ -31,3 +31,9 @@ coverage/
 # Misc
 *.tmp
 *.temp
+
+# Caddy
+caddy.exe
+caddy_*.exe
+*.zip
+Caddyfile
